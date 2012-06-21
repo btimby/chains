@@ -1,7 +1,7 @@
 (function() {
     var Affix = function(factory) {
         // We will store the HTML in these two arrays.
-        this.pre = [], this.post = [];
+        this.head = [], this.tail = [];
         // The global instance is a factory. It will create a new
         // chain for each tag method call on it. That chain will
         // then return ITSELF so that all subsequent tag methods
@@ -29,18 +29,18 @@
         }
         // Tag name is always the first argument.
         var name = arguments[0];
-        // Open the tag in the pre array.
-        chain.pre.push(
+        // Open the tag in the head array.
+        chain.head.push(
             '<', name
         );
         // Add the attributes (including the id).
         for (var key in attrs) {
-            chain.pre.push(' ', key, '="', attrs[key], '"')
+            chain.head.push(' ', key, '="', attrs[key], '"')
         }
         // Finish the opening tag.
-        chain.pre.push('>');
-        // Close the tag in the post array.
-        chain.post.splice(0, 0,
+        chain.head.push('>');
+        // Close the tag in the tail array.
+        chain.tail.splice(0, 0,
             '</', name, '>'
         );
         // Return the chain, either a new Affix instance, or this
@@ -50,7 +50,7 @@
 
     Affix.prototype.render = function() {
         // This function will return the HTML built so far.
-        return this.pre.concat(this.post).join('');
+        return this.head.concat(this.tail).join('');
     }
 
     // These are all the tags we will add methods for.
