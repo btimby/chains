@@ -1,4 +1,4 @@
 affix
 =====
 
-JavaScript library for building chains for HTML.
+JavaScript library for building chains of HTML.
