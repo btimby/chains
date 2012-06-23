@@ -14,7 +14,9 @@ var code0 = chains
 
 var code1 = chains
     .ul('foo',
-        chains.li().a({ href: 'http://google.com/' }).text('Google'),
+        chains.li()
+            .a({ href: 'http://google.com/' })
+                .text('Google'),
         chains.li()
     );
 

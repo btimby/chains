@@ -46,3 +46,11 @@ Just pass additional chains to the method call. Any chains will be appended in o
     var html = chains.ul(chains.li(), chains.li());
 
 That's it, quickly build well-formed HTML using JavaScript.
+
+*Future*
+
+You can also pass options to the chains object, such as indent=true. To do this, simply instantiate your
+own chains object.
+
+    chains = Chains({ indent: true });
+    chains.div().p().a({ href:'http://google.com/' });
