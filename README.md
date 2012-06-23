@@ -11,24 +11,18 @@ This is a simple library for building HTML. The need is that building HTML in Ja
 
 chains let you build HTML like so:
 
-{{{
-var url = 'http://google.com';
-var msg = 'This is a link!';
-var html = chains.div().p().a({ href: url }).text(msg);
-}}}
+    var url = 'http://google.com';
+    var msg = 'This is a link!';
+    var html = chains.div().p().a({ href: url }).text(msg);
 
 You can now render the html object using html.render() which will produce the following markup.
 
-{{{
-<div><p><a href="http://google.com/">This is a link!</a></p></div>
-}}}
+    <div><p><a href="http://google.com/">This is a link!</a></p></div>
 
 Another way to do this in JavaScript is:
 
-{{{
-var url = 'http://google.com/';
-var msg = 'This is a link!';
-var html = '<div><p><a href="' + url + '">' + msg + '</a></p></div>';
-}}}
+    var url = 'http://google.com/';
+    var msg = 'This is a link!';
+    var html = '<div><p><a href="' + url + '">' + msg + '</a></p></div>';
 
 For my eyes, this is much harder to read, let alone type.
