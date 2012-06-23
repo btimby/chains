@@ -1,19 +1,26 @@
 (function() {
     var Chains = function(factory) {
-        // We will store the HTML in these two arrays.
+        // We will store the HTML in these two stacks.
         this.head = [], this.tail = [];
         // The global instance is a factory. It will create a new
         // chain for each tag method call on it. That chain will
         // then return ITSELF so that all subsequent tag methods
         // are nested within that chain.
+        if (typeof factory == 'undefined')
+            factory = false;
         this.factory = factory;
+        this.isChain = true;
+    }
+
+    Chains.prototype.chain = function() {
+        return (this.factory)?new Chains():this;
     }
 
     Chains.prototype.tag = function() {
         // As the comment above explains, the root object is
         // a factory, as such we will return a new Chains() instance
         // this instance will NOT be a factory.
-        var chain = (this.factory)?new Chains(false):this;
+        var chain = this.chain();
         var attrs = {};
         // Work our our arguments.
         if (arguments.length == 0) {
@@ -29,7 +36,7 @@
         }
         // Tag name is always the first argument.
         var name = arguments[0];
-        // Open the tag in the head array.
+        // Open the tag in the head stack.
         chain.head.push(
             '<', name
         );
@@ -39,12 +46,23 @@
         }
         // Finish the opening tag.
         chain.head.push('>');
-        // Close the tag in the tail array.
+        // Close the tag in the tail stack.
         chain.tail.splice(0, 0,
             '</', name, '>'
         );
+        // Push any additional chain arguments to the head stack.
+        for (var i = 0; i < arguments.length; i++)
+            if (arguments[i].isChain)
+                chain.head.push(arguments[i].render());
         // Return the chain, either a new Chains instance, or this
         // as determined by this.factory.
+        return chain;
+    }
+
+    Chains.prototype.text = function(text) {
+        // Simply append a bit of text to the stack.
+        var chain = this.chain();
+        chain.head.push(text);
         return chain;
     }
 
@@ -59,7 +77,9 @@
         'a', 'p', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5',
         'h6', 'h7', 'pre', 'script', 'link',
         // FORM TAGS
-        'form', 'input', 'label', 'button', 'textarea'
+        'form', 'input', 'label', 'button', 'textarea',
+        // LIST TAGS
+        'ul', 'ol', 'li'
     ];
 
     // Dynamically add a method for each tag.

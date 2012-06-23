@@ -1,12 +1,14 @@
 <html>
 <head></head>
-<textarea id="code" cols="100" rows="50"></textarea>
+<textarea id="code0" cols="100" rows="1"></textarea>
+<textarea id="code1" cols="100" rows="1"></textarea>
 <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="chains.js"></script>
 <script type="text/javascript">
 <!--
 
-$('#code').val(chains.div('foo', {class: 'bar'}).p('text', { class: 'foo' }).render());
+$('#code0').val(chains.div('foo', {class: 'bar'}).p('text', { class: 'foo' }).render());
+$('#code1').val(chains.ul('foo', chains.li().a({ href: 'http://google.com/' }).text('Google'), chains.li()).render());
 
 //-->
 </script>
