@@ -13,7 +13,7 @@ chains let you build HTML like so:
 
     var url = 'http://google.com';
     var msg = 'This is a link!';
-    var html = chains.div().p().a({ href: url }, chains.text(msg));
+    var html = chains.div().p().a({ href: url }).text(msg);
 
 You can now render the html object using html.render() which will produce the following markup:
 
