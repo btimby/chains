@@ -1,5 +1,5 @@
 (function() {
-    var Affix = function(factory) {
+    var Chains = function(factory) {
         // We will store the HTML in these two arrays.
         this.head = [], this.tail = [];
         // The global instance is a factory. It will create a new
@@ -9,11 +9,11 @@
         this.factory = factory;
     }
 
-    Affix.prototype.tag = function() {
+    Chains.prototype.tag = function() {
         // As the comment above explains, the root object is
-        // a factory, as such we will return a new Affix() instance
+        // a factory, as such we will return a new Chains() instance
         // this instance will NOT be a factory.
-        var chain = (this.factory)?new Affix(false):this;
+        var chain = (this.factory)?new Chains(false):this;
         var attrs = {};
         // Work our our arguments.
         if (arguments.length == 0) {
@@ -43,12 +43,12 @@
         chain.tail.splice(0, 0,
             '</', name, '>'
         );
-        // Return the chain, either a new Affix instance, or this
+        // Return the chain, either a new Chains instance, or this
         // as determined by this.factory.
         return chain;
     }
 
-    Affix.prototype.render = function() {
+    Chains.prototype.render = function() {
         // This function will return the HTML built so far.
         return this.head.concat(this.tail).join('');
     }
@@ -65,7 +65,7 @@
     // Dynamically add a method for each tag.
     for ( var i = 0; i < tags.length; i++) {
         var name = tags[i];
-        Affix.prototype[name] = (function(name) {
+        Chains.prototype[name] = (function(name) {
             return function() {
                 var args = [name];
                 for (var i = 0; i < arguments.length; i++)
@@ -76,5 +76,5 @@
     }
 
     // Now define a global, this is how users will reach us.
-    affix = new Affix(true);
+    chains = new Chains(true);
 })();
