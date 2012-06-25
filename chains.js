@@ -45,7 +45,7 @@
         for (var key in attrs)
             chain.head.push(' ', key, '="', attrs[key], '"');
         // Handle nesting and singleton tags differently.
-        if (singleton.indexOf(tag) != -1)
+        if (singleton.indexOf(name) != -1)
             // Close the tag immediately, nothing for tail.
             chain.head.push('/>');
         else {
