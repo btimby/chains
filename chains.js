@@ -22,7 +22,8 @@
         // this instance will NOT be a factory.
         var chain = this.chain();
         var attrs = {};
-        // Work our our arguments.
+        // Work out our arguments.
+        // BUG alert, this is broken with the addition of being able to pass chains!
         if (arguments.length == 0) {
             throw 'tag name must be the first argument';
         } else if (arguments.length == 2) {
@@ -41,9 +42,8 @@
             '<', name
         );
         // Add the attributes (including the id).
-        for (var key in attrs) {
-            chain.head.push(' ', key, '="', attrs[key], '"')
-        }
+        for (var key in attrs)
+            chain.head.push(' ', key, '="', attrs[key], '"');
         // Finish the opening tag.
         chain.head.push('>');
         // Close the tag in the tail stack.
@@ -73,13 +73,18 @@
 
     // These are all the tags we will add methods for.
     var tags = [
-        // GENERIC TAGS
+        // GENERIC TAGS:
         'a', 'p', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5',
-        'h6', 'h7', 'pre', 'script', 'link',
-        // FORM TAGS
+        'h6', 'h7', 'pre', 'script', 'link', 'img',
+
+        // FORM TAGS:
         'form', 'input', 'label', 'button', 'textarea',
-        // LIST TAGS
-        'ul', 'ol', 'li'
+
+        // LIST TAGS:
+        'ul', 'ol', 'li',
+
+        // SINGLE TAGS:
+        'hr', 'br'
     ];
 
     // Dynamically add a method for each tag.
