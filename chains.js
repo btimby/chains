@@ -36,7 +36,7 @@
             attrs['id'] = arguments[1];
         }
         // Tag name is always the first argument.
-        var name = arguments[0];
+        var name = arguments[0].toLowerCase();
         // Open the tag in the head stack.
         chain.head.push(
             '<', name
@@ -44,12 +44,19 @@
         // Add the attributes (including the id).
         for (var key in attrs)
             chain.head.push(' ', key, '="', attrs[key], '"');
-        // Finish the opening tag.
-        chain.head.push('>');
-        // Close the tag in the tail stack.
-        chain.tail.splice(0, 0,
-            '</', name, '>'
-        );
+        // Some tags don't contain any other tags, and are closed immediately.
+        if (tag == 'hr' ||
+            tag == 'br' ||
+            tag == 'img')
+            chain.head.push('/>');
+        else {
+            // Finish the opening tag.
+            chain.head.push('>');
+            // Close the tag in the tail stack.
+            chain.tail.splice(0, 0,
+                '</', name, '>'
+            );
+        }
         // Push any additional chain arguments to the head stack.
         for (var i = 0; i < arguments.length; i++)
             if (arguments[i].isChain)
@@ -75,7 +82,7 @@
     var tags = [
         // GENERIC TAGS:
         'a', 'p', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5',
-        'h6', 'h7', 'pre', 'script', 'link', 'img',
+        'h6', 'h7', 'pre', 'script', 'link',
 
         // FORM TAGS:
         'form', 'input', 'label', 'button', 'textarea',
@@ -84,7 +91,7 @@
         'ul', 'ol', 'li',
 
         // SINGLE TAGS:
-        'hr', 'br'
+        'hr', 'br', 'img'
     ];
 
     // Dynamically add a method for each tag.
