@@ -44,10 +44,9 @@
         // Add the attributes (including the id).
         for (var key in attrs)
             chain.head.push(' ', key, '="', attrs[key], '"');
-        // Some tags don't contain any other tags, and are closed immediately.
-        if (tag == 'hr' ||
-            tag == 'br' ||
-            tag == 'img')
+        // Handle nesting and singleton tags differently.
+        if (singleton.indexOf(tag) != -1)
+            // Close the tag immediately, nothing for tail.
             chain.head.push('/>');
         else {
             // Finish the opening tag.
@@ -78,8 +77,8 @@
         return this.head.concat(this.tail).join('');
     }
 
-    // These are all the tags we will add methods for.
-    var tags = [
+    // Tags that can contain other tags.
+    var nesting = [
         // GENERIC TAGS:
         'a', 'p', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5',
         'h6', 'h7', 'pre', 'script', 'link',
@@ -88,11 +87,14 @@
         'form', 'input', 'label', 'button', 'textarea',
 
         // LIST TAGS:
-        'ul', 'ol', 'li',
-
-        // SINGLE TAGS:
+        'ul', 'ol', 'li'
+    ];
+    // Tags that don't contain other tags.
+    var singleton = [
         'hr', 'br', 'img'
     ];
+    // All tags.
+    var tags = nesting.concat(singleton);
 
     // Dynamically add a method for each tag.
     for ( var i = 0; i < tags.length; i++) {
