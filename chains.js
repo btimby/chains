@@ -84,13 +84,16 @@
     var nesting = [
         // GENERIC TAGS:
         'a', 'p', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5',
-        'h6', 'h7', 'pre', 'script', 'link',
+        'h6', 'h7', 'pre', 'script', 'link', 'b', 'i', 'code',
 
         // FORM TAGS:
         'form', 'input', 'label', 'button', 'textarea',
 
         // LIST TAGS:
-        'ul', 'ol', 'li'
+        'ul', 'ol', 'li',
+
+        // TABLE TAGS:
+        'table', 'thead', 'tbody', 'tr', 'th', 'td'
     ];
     // Tags that don't contain other tags.
     var singleton = [
