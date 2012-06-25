@@ -1,8 +1,11 @@
 <html>
 <head></head>
+<h1>Simple nested chain.</h1>
 <textarea id="code0" cols="100" rows="1"></textarea>
-<br/>
+<h1>Chains within chains.</h1>
 <textarea id="code1" cols="100" rows="1"></textarea>
+<h1>Using null() for siblings.</h1>
+<textarea id="code2" cols="100" rows="1"></textarea>
 <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="chains.js"></script>
 <script type="text/javascript">
@@ -21,8 +24,14 @@ var code1 = chains.div()
                 .text('Second Item')
     );
 
+var code2 = chains.null(
+    chains.p().text('paragraph 1'),
+    chains.p().text('paragraph 2')
+);
+
 $('#code0').val(code0.render());
 $('#code1').val(code1.render());
+$('#code2').val(code2.render());
 
 //-->
 </script>

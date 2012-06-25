@@ -21,11 +21,7 @@
         // a factory, as such we will return a new Chains() instance
         // this instance will NOT be a factory.
         var chain = this.chain();
-        if (arguments.length == 0)
-            throw 'tag name must be the first argument';
-        // Tag name is always the first argument.
-        var name = arguments[0].toLowerCase();
-        var id = null, attrs = {};
+        var name = arguments[0], id = null, attrs = {};
         if (arguments.length > 1) {
             var arg2 = arguments[1];
             if (typeof(arg2) == 'string')
@@ -40,38 +36,44 @@
         }
         if (id)
             attrs['id'] = id;
-        // Open the tag in the head stack.
-        chain.head.push(
-            '<', name
-        );
-        // Add the attributes (including the id).
-        for (var key in attrs)
-            chain.head.push(' ', key, '="', attrs[key], '"');
-        // Handle nesting and singleton tags differently.
-        if (singleton.indexOf(name) != -1)
-            // Close the tag immediately, nothing for tail.
-            chain.head.push('/>');
-        else {
-            // Finish the opening tag.
-            chain.head.push('>');
-            // Close the tag in the tail stack.
-            chain.tail.splice(0, 0,
-                '</', name, '>'
+        if (name) {
+            name = name.toLowerCase();
+            // Open the tag in the head stack.
+            chain.head.push(
+                '<', name
             );
+            // Add the attributes (including the id).
+            for (var key in attrs)
+                chain.head.push(' ', key, '="', attrs[key], '"');
+            // Handle nesting and singleton tags differently.
+            if (singleton.indexOf(name) != -1)
+                // Close the tag immediately, nothing for tail.
+                chain.head.push('/>');
+            else {
+                // Finish the opening tag.
+                chain.head.push('>');
+                // Close the tag in the tail stack.
+                chain.tail.splice(0, 0,
+                    '</', name, '>'
+                );
+            }
         }
         // Push any additional chain arguments to the head stack.
         for (var i = 0; i < arguments.length; i++)
-            if (arguments[i].isChain)
+            if (arguments[i] && arguments[i].isChain)
                 chain.head.push(arguments[i].render());
         // Return the chain, either a new Chains instance, or this
         // as determined by this.factory.
         return chain;
     }
 
-    Chains.prototype.null = function() {
+    Chains.prototype['null'] = function() {
         // Does not add a chain, a NOOP, useful if you want to
         // build a chain that is strictly siblings...
-        return this.chain();
+        var args = [null];
+        for (var i = 0; i < arguments.length; i++)
+            args.push(arguments[i]);
+        return this.tag.apply(this, args);
     }
 
     Chains.prototype.text = function(text) {

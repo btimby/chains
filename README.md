@@ -27,7 +27,7 @@ Another way to do this in JavaScript is:
 
 For my eyes, this is much harder to read, let alone type.
 
-* ID Shortcut *
+*ID Shortcut*
 
 There is also a shortcut for defining the id of an element. If the first argument to the
 method is a string, then it is assumed to be the id. This way, you don't need to use { id:
@@ -35,7 +35,7 @@ method is a string, then it is assumed to be the id. This way, you don't need to
 
     var html = chains.div('my-element-id').p()
 
-* Chains Within Chains *
+*Chains Within Chains*
 
 Elements strung together become a nested, each method invocation wraps the desired tag in
 the previous tag. However, producing markup like the following is simple:
@@ -49,7 +49,7 @@ Just pass additional chains to the method call. Any chains will be appended in o
 
     var html = chains.ul(chains.li(), chains.li());
 
-* Siblings *
+*Siblings*
 
 If you want to build an HTML chain that has no outer container, such as a series of <p> tags, you can do that by using null(). To get the following HTML:
 
