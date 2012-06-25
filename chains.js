@@ -68,6 +68,12 @@
         return chain;
     }
 
+    Chains.prototype.null = function() {
+        // Does not add a chain, a NOOP, useful if you want to
+        // build a chain that is strictly siblings...
+        return this.chain();
+    }
+
     Chains.prototype.text = function(text) {
         // Simply append a bit of text to the stack.
         var chain = this.chain();
