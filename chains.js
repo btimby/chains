@@ -21,22 +21,25 @@
         // a factory, as such we will return a new Chains() instance
         // this instance will NOT be a factory.
         var chain = this.chain();
-        var attrs = {};
-        // Work out our arguments.
-        // BUG alert, this is broken with the addition of being able to pass chains!
-        if (arguments.length == 0) {
+        if (arguments.length == 0)
             throw 'tag name must be the first argument';
-        } else if (arguments.length == 2) {
-            if (typeof arguments[1] == 'string')
-                attrs['id'] = arguments[1];
-            else
-                attrs = arguments[1];
-        } else if (arguments.length == 3) {
-            attrs = arguments[2];
-            attrs['id'] = arguments[1];
-        }
         // Tag name is always the first argument.
         var name = arguments[0].toLowerCase();
+        var id = null, attrs = {};
+        if (arguments.length > 1) {
+            var arg2 = arguments[1];
+            if (typeof(arg2) == 'string')
+                id = arg2;
+            else if (!arg2.isChain)
+                attrs = arg2;
+        }
+        if (arguments.length > 2) {
+            var arg3 = arguments[2];
+            if (!arg3.isChain)
+                attrs = arg3;
+        }
+        if (id)
+            attrs['id'] = id;
         // Open the tag in the head stack.
         chain.head.push(
             '<', name
